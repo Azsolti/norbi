@@ -1,58 +1,77 @@
-<!-- 
-Online HTML, CSS and JavaScript editor to run code online.
--->
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Browser</title>
-</head>
-
-<body>
-	<div class="background"></div>
-  	
-    <div class="div1">
-      <h3 style="position:absolute">Versenyek</h3>
-      
-      
-      <div class="div1-child">
-         <div class="div1-child-child">
-           <div class="comp-container">2023.09.23 - Kiskunfélegyháza Büdös Jóska emlékverseny</div>
-           <div class="button-container">
-             <div class="c-button">Nevezés</div>
-             <div class="c-button">Részletek</div>
-           </div>
-         </div>
-        
-         <div class="div1-child-child" style="border-bottom: dotted 1px white;border-top: dotted 1px white;">
-           <div class="comp-container">2023.09.23 - Kiskunfélegyháza Büdös Jóska emlékverseny</div>
-           <div class="button-container">
-             <div class="c-button">Nevezés</div>
-             <div class="c-button">Részletek</div>
-           </div>
-         </div>
-         <div class="div1-child-child">
-           <div class="comp-container">2023.09.23 - Kiskunfélegyháza Büdös Jóska emlékverseny</div>
-           <div class="button-container">
-             <div class="c-button">Nevezés</div>
-             <div class="c-button">Részletek</div>
-           </div>
-         </div>
-        
-      </div>
-      
-  	</div>
-    <div class="div2">Versenyeredmények</div>
-    <div class="div3">Blog</div>
-    <div class="div4">RGNWGBWB</div>
+class Competitor(models.Model): 
+ 
+    COMPETITION_CHOICES = [
+        ('OTVR', 'OTVR'),
+        ('E-Glider', 'E-Glider'),
+        ('ALOT', 'ALOT'),
+        ('ELOT', 'ELOT'),
+        ('E-Rubber', 'E-Rubber'),
+        ('Texaco', 'Texaco'), # --> 3 rounds
+        ('ALOT Junior', 'ALOT Junior'),
+        ('E-Rubber Junior', 'E-Rubber Junior'),
+        ]
+     NUMBER_CHOICES = [
+        (0, '0'),
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    ]
+ 
+    competitor_name = models.CharField(max_length=100, blank=False )
+    plane_name = models.CharField(max_length=100, blank=False)
+    category = models.Charfield(max_length=100, choices=CATEGORIES, default="OTVR")
+    launch_amout = models.IntegerField(choices=NUMBER_CHOICES, default=1)
+    time_1 = models.IntegerField(default=0, blank=True)
+    time_2 = models.IntegerField(default=0, blank=True)
+    time_3 = models.IntegerField(default=0, blank=True)
+    time_4 = models.IntegerField(default=0, blank=True)
+    time_5 = models.IntegerField(default=0, blank=True)
+    time_6 = models.IntegerField(default=0, blank=True)
+    flyoff_time = models.IntegerField(default=0)
     
-  
-</body>
-</html>
-  <script src="script.js"></script>
-</body>
+    """def calculate_result_round_3(self):
+        times = [self.time_1, self.time_2, self.time_3]
+        times.sort()
+        return sum(times[1:]) + self.flyoff_time    
+       
+    result_3 = calculate_result_round_3()
+    
+    def calculate_result_round_4(self):
+        times = [self.time_1, self.time_2, self.time_3,self.time_4]
+        times.sort()
+        return sum(times[1:]) + self.flyoff_time    
+       
+    result_4 = calculate_result_round_4()
+    
+    def calculate_result_round_5(self):
+        times = [self.time_1, self.time_2, self.time_3,self.time_4,self.time_5]
+        times.sort()
+        return sum(times[2:]) + self.flyoff_time    
+       
+    result_5 = calculate_result_round_5()
+    
+    def calculate_result_round_6(self):
+        times = [self.time_1, self.time_2, self.time_3,self.time_4, self.time_5,self.time_6]
+        times.sort()
+        return sum(times[2:]) + self.flyoff_time    
+       
+    result_6 = calculate_result_round_6()"""
+    
+class Competition(models.Model):
+     NUMBER_CHOICES = [
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+    ]
 
-</html>
+    name = models.CharField(max_length=100, blank=False)
+    date = models.CharField(max_length=100, blank=False)
+    location = models.CharField(max_length=100, blank=False)
+    max_rounds = models.IntegerField(default=1, blank=False, choices=NUMBER_CHOICES)
+    competitor = models.ManyToManyField(Competitor, related_name="competitions")
+
