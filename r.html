@@ -1,6 +1,6 @@
 class Competitor(models.Model): 
  
-    COMPETITION_CHOICES = [
+    CATEGORIES = [
         ('OTVR', 'OTVR'),
         ('E-Glider', 'E-Glider'),
         ('ALOT', 'ALOT'),
@@ -10,7 +10,7 @@ class Competitor(models.Model):
         ('ALOT Junior', 'ALOT Junior'),
         ('E-Rubber Junior', 'E-Rubber Junior'),
         ]
-     NUMBER_CHOICES = [
+     LUNCH_CHOICES = [
         (0, '0'),
         (1, '1'),
         (2, '2'),
@@ -22,7 +22,7 @@ class Competitor(models.Model):
     competitor_name = models.CharField(max_length=100, blank=False )
     plane_name = models.CharField(max_length=100, blank=False)
     category = models.Charfield(max_length=100, choices=CATEGORIES, default="OTVR")
-    launch_amout = models.IntegerField(choices=NUMBER_CHOICES, default=1)
+    lunch_amout = models.IntegerField(choices=LUNCH_CHOICES, default=0)
     time_1 = models.IntegerField(default=0, blank=True)
     time_2 = models.IntegerField(default=0, blank=True)
     time_3 = models.IntegerField(default=0, blank=True)
@@ -60,7 +60,7 @@ class Competitor(models.Model):
     result_6 = calculate_result_round_6()"""
     
 class Competition(models.Model):
-     NUMBER_CHOICES = [
+     ROUNDS_CHOICES = [
         (1, '1'),
         (2, '2'),
         (3, '3'),
@@ -72,6 +72,6 @@ class Competition(models.Model):
     name = models.CharField(max_length=100, blank=False)
     date = models.CharField(max_length=100, blank=False)
     location = models.CharField(max_length=100, blank=False)
-    max_rounds = models.IntegerField(default=1, blank=False, choices=NUMBER_CHOICES)
+    max_rounds = models.IntegerField(default=1, blank=False, choices=ROUNDS_CHOICES)
     competitor = models.ManyToManyField(Competitor, related_name="competitions")
 
